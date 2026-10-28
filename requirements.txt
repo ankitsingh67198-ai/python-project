@@ -15,6 +15,3 @@ matplotlib>=3.8.0
 
 # Technical Report Generation
 reportlab>=4.2.0
-
-# Install local campus_routing package
--e .
