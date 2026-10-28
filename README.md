@@ -1,5 +1,7 @@
 # Smart Campus Navigation System for IIIT Kottayam
 
+🌐 **Live Demo:** [https://python-project-jscosaaocsrpgkzuj4v8a5.streamlit.app/](https://python-project-jscosaaocsrpgkzuj4v8a5.streamlit.app/)
+
 A Python-based graph-theoretic navigation system engineered to model and calculate walking routes across the permanent campus of the **Indian Institute of Information Technology Kottayam (IIIT Kottayam)** at Valavoor, Pala, Kerala.
 
 ---
