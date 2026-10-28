@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_88e787dbfd2e8d4a69a07fc74782cf89 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 500.0px;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div id="campus-context-banner" style="
+    position: fixed;
+    top: 15px;
+    left: 60px;
+    right: 20px;
+    z-index: 1000;
+    background: #FFF8E1;
+    color: #5D4037;
+    border: 2px solid #FFA000;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+">
+    <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #E65100;">
+        ℹ️ IIIT Kottayam — Campus Context Mode (Planning Baseline)
+    </div>
+    <div>
+        <strong>Verified Centroid Datum:</strong> 9°45′17″ N, 76°39′00″ E (Valavoor, Pala).
+        <br>
+        <strong>Notice:</strong> Verified internal pedestrian footways and micro-level building entrance coordinates
+        are currently <em>unsurveyed</em>. To ensure scientific integrity, no pathways or building pins are fabricated on this map.
+    </div>
+</div>
+    
+    <div id="map-floating-legend" style="
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid #B0BEC5;
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        min-width: 150px;
+    ">
+        <div style="font-weight: 700; font-size: 12px; color: #263238; margin-bottom: 6px; border-bottom: 1px solid #ECEFF1; padding-bottom: 4px;">
+            Landmark Categories
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #1976D2; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Academic</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #7B1FA2; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Administrative</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #E65100; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Residential</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #2E7D32; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Dining</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #C2185B; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Sports</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #00897B; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Amenity</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #B71C1C; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Gate</span>
+        </div>
+        
+        
+    </div>
+    
+    
+            <div class="folium-map" id="map_88e787dbfd2e8d4a69a07fc74782cf89" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_88e787dbfd2e8d4a69a07fc74782cf89 = L.map(
+                "map_88e787dbfd2e8d4a69a07fc74782cf89",
+                {
+                    center: [9.754833, 76.650099],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_88e787dbfd2e8d4a69a07fc74782cf89);
+
+            
+
+        
+    
+            var tile_layer_e7c3fc3ba41a8c1357f6a163150e83fa = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e7c3fc3ba41a8c1357f6a163150e83fa.addTo(map_88e787dbfd2e8d4a69a07fc74782cf89);
+        
+    
+            var marker_a34c7e8f3bd358695a5477f426030788 = L.marker(
+                [9.754833, 76.650099],
+                {
+}
+            ).addTo(map_88e787dbfd2e8d4a69a07fc74782cf89);
+        
+    
+            var icon_ab5de3c821ef26f987405de5381f4e59 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_476b4cd88bf910477cc47f0e91d40397 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dfbb1cb725398eacbc3a7f0d214970c9 = $(`<div id="html_dfbb1cb725398eacbc3a7f0d214970c9" style="width: 100.0%; height: 100.0%;">     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 220px; line-height: 1.4;">         <div style="font-weight: 700; color: #0D47A1; font-size: 13px; margin-bottom: 4px;">             Indian Institute of Information Technology Kottayam         </div>         <div style="color: #455A64; margin-bottom: 4px;">             <b>Reference Datum:</b> Institutional Centroid         </div>         <div><b>Coordinates:</b> 9.754833° N, 76.650099° E</div>         <div><b>Location:</b> Valavoor, Pala, Kottayam, Kerala 686635, India</div>         <div style="margin-top: 6px; color: #D84315; font-size: 11px;">             ⚠️ <i>Reference point for cartographic centering only. Not an entrance or survey monument.</i>         </div>              </div>     </div>`)[0];
+                popup_476b4cd88bf910477cc47f0e91d40397.setContent(html_dfbb1cb725398eacbc3a7f0d214970c9);
+            
+        
+
+        marker_a34c7e8f3bd358695a5477f426030788.bindPopup(popup_476b4cd88bf910477cc47f0e91d40397)
+        ;
+
+        
+    
+    
+            marker_a34c7e8f3bd358695a5477f426030788.bindTooltip(
+                `<div>
+                     IIIT Kottayam — Institutional Reference Datum
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a34c7e8f3bd358695a5477f426030788.setIcon(icon_ab5de3c821ef26f987405de5381f4e59);
+            
+</script>
+</html>

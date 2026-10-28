@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8d36f253177cfacf28b7e4e6b6d9d39b {
+                    position: relative;
+                    width: 100.0%;
+                    height: 600.0px;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div id="synthetic-demo-banner" style="
+    position: fixed;
+    top: 15px;
+    left: 60px;
+    right: 20px;
+    z-index: 1000;
+    background: #FFEBEE;
+    color: #B71C1C;
+    border: 2px solid #D32F2F;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+">
+    <div style="font-weight: 800; font-size: 14px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+        ⚠️ SYNTHETIC DEMONSTRATION — NOT REAL CAMPUS NAVIGATION
+    </div>
+    <div>
+        This map displays an isolated synthetic graph (<code>demonstration_graph.json</code>) designed exclusively
+        for algorithm testing and cartographic verification. These pathways and nodes do <strong>not</strong> represent
+        actual IIIT Kottayam walking routes.
+    </div>
+</div>
+    
+    <div id="map-floating-legend" style="
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid #B0BEC5;
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        min-width: 150px;
+    ">
+        <div style="font-weight: 700; font-size: 12px; color: #263238; margin-bottom: 6px; border-bottom: 1px solid #ECEFF1; padding-bottom: 4px;">
+            Demo Legend
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #1976D2; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Academic</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #7B1FA2; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Administrative</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #E65100; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Residential</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #2E7D32; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Dining</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #C2185B; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Sports</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #00897B; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Amenity</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #B71C1C; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Gate</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #546E7A; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Junction</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #616161; margin-right: 8px;"></span>
+            <span style="font-size: 11px; color: #37474F;">Other</span>
+        </div>
+        
+        
+        <div style="border-top: 1px solid #CFD8DC; margin-top: 6px; padding-top: 6px;">
+            <div style="font-weight: 600; font-size: 11px; color: #263238; margin-bottom: 4px;">Pathways</div>
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <span style="display: inline-block; width: 16px; height: 4px; background: #0D47A1; margin-right: 8px;"></span>
+                <span style="font-size: 11px; color: #37474F;">Calculated Route</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <span style="display: inline-block; width: 16px; height: 3px; background: #607D8B; margin-right: 8px;"></span>
+                <span style="font-size: 11px; color: #37474F;">Walkable Pathway</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <span style="display: inline-block; width: 16px; height: 4px; border-top: 3px dashed #D32F2F; margin-right: 8px;"></span>
+                <span style="font-size: 11px; color: #37474F;">Blocked Pathway</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 4px;">
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2E7D32; margin-right: 8px;"></span>
+                <span style="font-size: 11px; color: #37474F;">Start Marker</span>
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #C62828; margin-left: 8px; margin-right: 8px;"></span>
+                <span style="font-size: 11px; color: #37474F;">Destination</span>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+            <div class="folium-map" id="map_8d36f253177cfacf28b7e4e6b6d9d39b" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8d36f253177cfacf28b7e4e6b6d9d39b = L.map(
+                "map_8d36f253177cfacf28b7e4e6b6d9d39b",
+                {
+                    center: [9.755016666666666, 76.65083333333332],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 17,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+
+            
+
+        
+    
+            var tile_layer_fb21f26a7e2a91b3d8a356aab38180ab = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_fb21f26a7e2a91b3d8a356aab38180ab.addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var poly_line_9874610c828a699da8c109ab798342d9 = L.polyline(
+                [[9.7552, 76.6503], [9.7541, 76.6492]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_00d60c6408f400124b3289f4523b703b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_880e1e1a8778761a365d75e8b38bba50 = $(`<div id="html_880e1e1a8778761a365d75e8b38bba50" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Academic Complex — Demo Campus Main Gate<br><b>Distance:</b> 165.4 m<br><b>Surface:</b> asphalt<br><b>Accessible:</b> Yes</div></div>`)[0];
+                popup_00d60c6408f400124b3289f4523b703b.setContent(html_880e1e1a8778761a365d75e8b38bba50);
+            
+        
+
+        poly_line_9874610c828a699da8c109ab798342d9.bindPopup(popup_00d60c6408f400124b3289f4523b703b)
+        ;
+
+        
+    
+    
+            poly_line_9874610c828a699da8c109ab798342d9.bindTooltip(
+                `<div>
+                     Pathway: Demo Academic Complex — Demo Campus Main Gate (165.4 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_aecb12bdcef175bf61964b5968b2d248 = L.polyline(
+                [[9.7552, 76.6503], [9.7549, 76.6508]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_a7de27b6e038a224fdf727885c146b54 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_40e628ebae6cd1580394a765b39e89b2 = $(`<div id="html_40e628ebae6cd1580394a765b39e89b2" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Academic Complex — Demo Central Library<br><b>Distance:</b> 62.1 m<br><b>Surface:</b> concrete<br><b>Accessible:</b> Yes</div></div>`)[0];
+                popup_a7de27b6e038a224fdf727885c146b54.setContent(html_40e628ebae6cd1580394a765b39e89b2);
+            
+        
+
+        poly_line_aecb12bdcef175bf61964b5968b2d248.bindPopup(popup_a7de27b6e038a224fdf727885c146b54)
+        ;
+
+        
+    
+    
+            poly_line_aecb12bdcef175bf61964b5968b2d248.bindTooltip(
+                `<div>
+                     Pathway: Demo Academic Complex — Demo Central Library (62.1 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_28715fafd602f5b9e42d491e052aa446 = L.polyline(
+                [[9.7552, 76.6503], [9.7558, 76.6511]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_f21514f5c03ee52504eaffdf69b6ed88 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f477d03762fd52309af46ef518bcf9e9 = $(`<div id="html_f477d03762fd52309af46ef518bcf9e9" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Academic Complex — Demo Central Mess<br><b>Distance:</b> 110.8 m<br><b>Surface:</b> paved<br><b>Accessible:</b> Yes</div></div>`)[0];
+                popup_f21514f5c03ee52504eaffdf69b6ed88.setContent(html_f477d03762fd52309af46ef518bcf9e9);
+            
+        
+
+        poly_line_28715fafd602f5b9e42d491e052aa446.bindPopup(popup_f21514f5c03ee52504eaffdf69b6ed88)
+        ;
+
+        
+    
+    
+            poly_line_28715fafd602f5b9e42d491e052aa446.bindTooltip(
+                `<div>
+                     Pathway: Demo Academic Complex — Demo Central Mess (110.8 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1809a669ae3bf7da3fa192f6b3fd0179 = L.polyline(
+                [[9.7563, 76.6515], [9.7558, 76.6511]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_f8b11f17195b7b41f213f0a339ea644f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e6edb3dcac0d480b34e1db55261c1e9a = $(`<div id="html_e6edb3dcac0d480b34e1db55261c1e9a" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Student Hostel — Demo Central Mess<br><b>Distance:</b> 72.3 m<br><b>Surface:</b> paved<br><b>Accessible:</b> Yes</div></div>`)[0];
+                popup_f8b11f17195b7b41f213f0a339ea644f.setContent(html_e6edb3dcac0d480b34e1db55261c1e9a);
+            
+        
+
+        poly_line_1809a669ae3bf7da3fa192f6b3fd0179.bindPopup(popup_f8b11f17195b7b41f213f0a339ea644f)
+        ;
+
+        
+    
+    
+            poly_line_1809a669ae3bf7da3fa192f6b3fd0179.bindTooltip(
+                `<div>
+                     Pathway: Demo Student Hostel — Demo Central Mess (72.3 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_8cf854a0766a97810f5d780aede726f6 = L.polyline(
+                [[9.7549, 76.6508], [9.7538, 76.6521]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_5bc0db86fb69257ad737a2fe8679fb28 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2f0fc6b573696099b63bf814c0221db3 = $(`<div id="html_2f0fc6b573696099b63bf814c0221db3" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Central Library — Demo Sports Pavilion<br><b>Distance:</b> 185.0 m<br><b>Surface:</b> trail<br><b>Accessible:</b> No</div></div>`)[0];
+                popup_5bc0db86fb69257ad737a2fe8679fb28.setContent(html_2f0fc6b573696099b63bf814c0221db3);
+            
+        
+
+        poly_line_8cf854a0766a97810f5d780aede726f6.bindPopup(popup_5bc0db86fb69257ad737a2fe8679fb28)
+        ;
+
+        
+    
+    
+            poly_line_8cf854a0766a97810f5d780aede726f6.bindTooltip(
+                `<div>
+                     Pathway: Demo Central Library — Demo Sports Pavilion (185.0 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e9a4f9ccc5ae35b9791aec6dba2e3dbf = L.polyline(
+                [[9.7558, 76.6511], [9.7538, 76.6521]],
+                {"bubblingMouseEvents": true, "color": "#607D8B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#607D8B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+        var popup_95f03e44629af9cb22c064f5f9b0d4dc = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_faad0f82fe2d3809ce36ff0c21ebc67f = $(`<div id="html_faad0f82fe2d3809ce36ff0c21ebc67f" style="width: 100.0%; height: 100.0%;"><div style='font-family: sans-serif; font-size: 12px;'><b>PATHWAY SEGMENT (SYNTHETIC)</b><br><b>Between:</b> Demo Central Mess — Demo Sports Pavilion<br><b>Distance:</b> 195.2 m<br><b>Surface:</b> stairs<br><b>Accessible:</b> No</div></div>`)[0];
+                popup_95f03e44629af9cb22c064f5f9b0d4dc.setContent(html_faad0f82fe2d3809ce36ff0c21ebc67f);
+            
+        
+
+        poly_line_e9a4f9ccc5ae35b9791aec6dba2e3dbf.bindPopup(popup_95f03e44629af9cb22c064f5f9b0d4dc)
+        ;
+
+        
+    
+    
+            poly_line_e9a4f9ccc5ae35b9791aec6dba2e3dbf.bindTooltip(
+                `<div>
+                     Pathway: Demo Central Mess — Demo Sports Pavilion (195.2 m)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4813f4c9d5a144357a538c1af9dc7990 = L.marker(
+                [9.7541, 76.6492],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_610e747e6c44caa308e21494f797e298 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "shield",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bcbc1e346c99015ce6a0489c1cbce244 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_cc28b2cf388ac120146f19c1bcca1047 = $(`<div id="html_cc28b2cf388ac120146f19c1bcca1047" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #B71C1C; font-size: 13px; margin-bottom: 4px;">                 Demo Campus Main Gate             </div>             <div><b>ID:</b> <code>DEMO_GATE</code></div>             <div><b>Category:</b> Gate</div>             <div><b>Elevation:</b> 120.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic checkpoint node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_bcbc1e346c99015ce6a0489c1cbce244.setContent(html_cc28b2cf388ac120146f19c1bcca1047);
+            
+        
+
+        marker_4813f4c9d5a144357a538c1af9dc7990.bindPopup(popup_bcbc1e346c99015ce6a0489c1cbce244)
+        ;
+
+        
+    
+    
+            marker_4813f4c9d5a144357a538c1af9dc7990.bindTooltip(
+                `<div>
+                     [GATE] Demo Campus Main Gate
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4813f4c9d5a144357a538c1af9dc7990.setIcon(icon_610e747e6c44caa308e21494f797e298);
+            
+    
+            var marker_e34849e71098703646e51b9bfcbae4a4 = L.marker(
+                [9.7552, 76.6503],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_c8fa5e8755ffd1b3c7da3860da760be7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "graduation-cap",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a26c1399e33ad61ff7e15ba76e61c69f = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_3e8d9f858ecd38448820ea0a7ca53622 = $(`<div id="html_3e8d9f858ecd38448820ea0a7ca53622" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #1976D2; font-size: 13px; margin-bottom: 4px;">                 Demo Academic Complex             </div>             <div><b>ID:</b> <code>DEMO_ACAD</code></div>             <div><b>Category:</b> Academic</div>             <div><b>Elevation:</b> 135.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic academic building node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_a26c1399e33ad61ff7e15ba76e61c69f.setContent(html_3e8d9f858ecd38448820ea0a7ca53622);
+            
+        
+
+        marker_e34849e71098703646e51b9bfcbae4a4.bindPopup(popup_a26c1399e33ad61ff7e15ba76e61c69f)
+        ;
+
+        
+    
+    
+            marker_e34849e71098703646e51b9bfcbae4a4.bindTooltip(
+                `<div>
+                     [ACADEMIC] Demo Academic Complex
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e34849e71098703646e51b9bfcbae4a4.setIcon(icon_c8fa5e8755ffd1b3c7da3860da760be7);
+            
+    
+            var marker_9c0902cf66465102c2cb5c4bd96d1120 = L.marker(
+                [9.7563, 76.6515],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_d862a4dbe13698cc55808c25fd2014c3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_34ec50fc9e63f1179089724bdf70b80d = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_0cade08973ba8346a2bdde9a8dccf776 = $(`<div id="html_0cade08973ba8346a2bdde9a8dccf776" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #E65100; font-size: 13px; margin-bottom: 4px;">                 Demo Student Hostel             </div>             <div><b>ID:</b> <code>DEMO_HOSTEL</code></div>             <div><b>Category:</b> Residential</div>             <div><b>Elevation:</b> 142.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic hostel node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_34ec50fc9e63f1179089724bdf70b80d.setContent(html_0cade08973ba8346a2bdde9a8dccf776);
+            
+        
+
+        marker_9c0902cf66465102c2cb5c4bd96d1120.bindPopup(popup_34ec50fc9e63f1179089724bdf70b80d)
+        ;
+
+        
+    
+    
+            marker_9c0902cf66465102c2cb5c4bd96d1120.bindTooltip(
+                `<div>
+                     [RESIDENTIAL] Demo Student Hostel
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9c0902cf66465102c2cb5c4bd96d1120.setIcon(icon_d862a4dbe13698cc55808c25fd2014c3);
+            
+    
+            var marker_7ebc442eea1be1e5f8afb1ede4b5a02a = L.marker(
+                [9.7558, 76.6511],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_5b2b1102e13d781bfb83212823a7cadd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6e45a9d186ba8169a10c1cd5f1e4d017 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_dfa32355c824113f77a8d97ee32ad933 = $(`<div id="html_dfa32355c824113f77a8d97ee32ad933" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #2E7D32; font-size: 13px; margin-bottom: 4px;">                 Demo Central Mess             </div>             <div><b>ID:</b> <code>DEMO_MESS</code></div>             <div><b>Category:</b> Dining</div>             <div><b>Elevation:</b> 138.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic dining hall node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_6e45a9d186ba8169a10c1cd5f1e4d017.setContent(html_dfa32355c824113f77a8d97ee32ad933);
+            
+        
+
+        marker_7ebc442eea1be1e5f8afb1ede4b5a02a.bindPopup(popup_6e45a9d186ba8169a10c1cd5f1e4d017)
+        ;
+
+        
+    
+    
+            marker_7ebc442eea1be1e5f8afb1ede4b5a02a.bindTooltip(
+                `<div>
+                     [DINING] Demo Central Mess
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7ebc442eea1be1e5f8afb1ede4b5a02a.setIcon(icon_5b2b1102e13d781bfb83212823a7cadd);
+            
+    
+            var marker_c87f3f2fcc5824d19cfc6da33c5f4d2a = L.marker(
+                [9.7549, 76.6508],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_d809936cc2996cf8c4de59866029c9a7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "graduation-cap",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2b11214083c09ed25689c4c81521f2e = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_d655b61c52f41af06544b97a462f0415 = $(`<div id="html_d655b61c52f41af06544b97a462f0415" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #1976D2; font-size: 13px; margin-bottom: 4px;">                 Demo Central Library             </div>             <div><b>ID:</b> <code>DEMO_LIBRARY</code></div>             <div><b>Category:</b> Academic</div>             <div><b>Elevation:</b> 132.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic library node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_e2b11214083c09ed25689c4c81521f2e.setContent(html_d655b61c52f41af06544b97a462f0415);
+            
+        
+
+        marker_c87f3f2fcc5824d19cfc6da33c5f4d2a.bindPopup(popup_e2b11214083c09ed25689c4c81521f2e)
+        ;
+
+        
+    
+    
+            marker_c87f3f2fcc5824d19cfc6da33c5f4d2a.bindTooltip(
+                `<div>
+                     [ACADEMIC] Demo Central Library
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c87f3f2fcc5824d19cfc6da33c5f4d2a.setIcon(icon_d809936cc2996cf8c4de59866029c9a7);
+            
+    
+            var marker_a9d96ac5b7c4fabbeac1cd78893035ef = L.marker(
+                [9.7538, 76.6521],
+                {
+}
+            ).addTo(map_8d36f253177cfacf28b7e4e6b6d9d39b);
+        
+    
+            var icon_08f5be74b3cde8b13529ffbd05f4da15 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "futbol-o",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_69d665ea5f38ed687a58ad318cee8a77 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_13cb16f1914a78dc290e1f30001301a9 = $(`<div id="html_13cb16f1914a78dc290e1f30001301a9" style="width: 100.0%; height: 100.0%;">         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; min-width: 200px; line-height: 1.4;">             <div style="font-weight: 700; color: #C2185B; font-size: 13px; margin-bottom: 4px;">                 Demo Sports Pavilion             </div>             <div><b>ID:</b> <code>DEMO_SPORTS</code></div>             <div><b>Category:</b> Sports</div>             <div><b>Elevation:</b> 125.0 m</div>             <div><b>Provenance:</b> <span style="font-size: 11px; background: #FFEBEE; padding: 1px 4px; border-radius: 3px; color: #B71C1C;">SYNTHETIC_DEMO</span></div>             <div style="margin-top: 4px; font-style: italic; color: #555;">Synthetic sports node for demonstration testing.</div>         </div>         </div>`)[0];
+                popup_69d665ea5f38ed687a58ad318cee8a77.setContent(html_13cb16f1914a78dc290e1f30001301a9);
+            
+        
+
+        marker_a9d96ac5b7c4fabbeac1cd78893035ef.bindPopup(popup_69d665ea5f38ed687a58ad318cee8a77)
+        ;
+
+        
+    
+    
+            marker_a9d96ac5b7c4fabbeac1cd78893035ef.bindTooltip(
+                `<div>
+                     [SPORTS] Demo Sports Pavilion
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a9d96ac5b7c4fabbeac1cd78893035ef.setIcon(icon_08f5be74b3cde8b13529ffbd05f4da15);
+            
+    
+            map_8d36f253177cfacf28b7e4e6b6d9d39b.fitBounds(
+                [[9.7538, 76.6492], [9.7563, 76.6521]],
+                {"padding": [25, 25]}
+            );
+        
+</script>
+</html>

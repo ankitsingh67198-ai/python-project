@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "dataset_name": "Synthetic IIIT Kottayam Demonstration Network",
+    "description": "Explicitly marked synthetic topology for algorithm testing and UI demonstration. Not a verified ground-truth walking network.",
+    "source_provenance": "SYNTHETIC_DEMO",
+    "verification_status": "SYNTHETIC_DEMO"
+  },
+  "nodes": [
+    {
+      "id": "DEMO_GATE",
+      "name": "Demo Campus Main Gate",
+      "category": "gate",
+      "latitude": 9.754100,
+      "longitude": 76.649200,
+      "elevation_m": 120.0,
+      "is_landmark": 1,
+      "description": "Synthetic checkpoint node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "id": "DEMO_ACAD",
+      "name": "Demo Academic Complex",
+      "category": "academic",
+      "latitude": 9.755200,
+      "longitude": 76.650300,
+      "elevation_m": 135.0,
+      "is_landmark": 1,
+      "description": "Synthetic academic building node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "id": "DEMO_HOSTEL",
+      "name": "Demo Student Hostel",
+      "category": "residential",
+      "latitude": 9.756300,
+      "longitude": 76.651500,
+      "elevation_m": 142.0,
+      "is_landmark": 1,
+      "description": "Synthetic hostel node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "id": "DEMO_MESS",
+      "name": "Demo Central Mess",
+      "category": "dining",
+      "latitude": 9.755800,
+      "longitude": 76.651100,
+      "elevation_m": 138.0,
+      "is_landmark": 1,
+      "description": "Synthetic dining hall node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "id": "DEMO_LIBRARY",
+      "name": "Demo Central Library",
+      "category": "academic",
+      "latitude": 9.754900,
+      "longitude": 76.650800,
+      "elevation_m": 132.0,
+      "is_landmark": 1,
+      "description": "Synthetic library node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "id": "DEMO_SPORTS",
+      "name": "Demo Sports Pavilion",
+      "category": "sports",
+      "latitude": 9.753800,
+      "longitude": 76.652100,
+      "elevation_m": 125.0,
+      "is_landmark": 1,
+      "description": "Synthetic sports node for demonstration testing.",
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "DEMO_ACAD",
+      "target_id": "DEMO_GATE",
+      "distance_m": 165.4,
+      "is_directed": 0,
+      "surface_type": "asphalt",
+      "is_accessible": 1,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "source_id": "DEMO_ACAD",
+      "target_id": "DEMO_LIBRARY",
+      "distance_m": 62.1,
+      "is_directed": 0,
+      "surface_type": "concrete",
+      "is_accessible": 1,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "source_id": "DEMO_ACAD",
+      "target_id": "DEMO_MESS",
+      "distance_m": 110.8,
+      "is_directed": 0,
+      "surface_type": "paved",
+      "is_accessible": 1,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "source_id": "DEMO_HOSTEL",
+      "target_id": "DEMO_MESS",
+      "distance_m": 72.3,
+      "is_directed": 0,
+      "surface_type": "paved",
+      "is_accessible": 1,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "source_id": "DEMO_LIBRARY",
+      "target_id": "DEMO_SPORTS",
+      "distance_m": 185.0,
+      "is_directed": 0,
+      "surface_type": "trail",
+      "is_accessible": 0,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    },
+    {
+      "source_id": "DEMO_MESS",
+      "target_id": "DEMO_SPORTS",
+      "distance_m": 195.2,
+      "is_directed": 0,
+      "surface_type": "stairs",
+      "is_accessible": 0,
+      "is_blocked": 0,
+      "source_provenance": "SYNTHETIC_DEMO",
+      "verification_status": "SYNTHETIC_DEMO"
+    }
+  ]
+}

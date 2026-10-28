@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "campus-routing"
+version = "0.1.0"
+description = "Smart Campus Navigation System for IIIT Kottayam"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Senior Python Software Architect & Graph-Algorithm Engineer"}
+]
+dependencies = [
+    "networkx>=3.2.1",
+    "pandas>=2.2.0",
+    "streamlit>=1.35.0",
+    "folium>=0.16.0",
+    "streamlit-folium>=0.20.0",
+    "reportlab>=4.2.0",
+    "matplotlib>=3.8.0",
+    "jupyterlab>=4.1.0",
+    "pytest>=8.1.0",
+    "pytest-cov>=5.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["campus_routing*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
